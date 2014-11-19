@@ -31,25 +31,29 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
-            // Configure the view.
+        var sceneWidth = self.view.bounds.width * 2
+        var sceneHeight = self.view.bounds.height * 2
+        var size = CGSizeMake(sceneWidth, sceneHeight)
+        var gameScene = GameScene(size: size)
+            gameScene.backgroundColor = SKColor.whiteColor()
+            
+            
+            
             let skView = self.view as SKView
+            skView.showsDrawCount = true
             skView.showsFPS = true
             skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            
-            skView.presentScene(scene)
-        }
-
         
-}
+            skView.presentScene(gameScene)
 
+}
+    override func loadView() {
+        self.view = SKView(frame: UIScreen.mainScreen().bounds)
+    }
+    
     override func shouldAutorotate() -> Bool {
         return true
     }

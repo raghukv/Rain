@@ -24,11 +24,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var patternTimer = NSTimer()
     
     override func didMoveToView(view: SKView) {
-        
+
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0,0)
-        self.xAxisMax = UInt32(self.frame.width)
+        self.xAxisMax = UInt32(self.frame.width - 20)
         self.controlCircle = drawControlCircle()
+        
+        controlCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-200)
 
         self.addChild(controlCircle)
         controlCircle.physicsBody?.categoryBitMask = mainCategory
@@ -42,11 +44,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func generatePattern(){
-        
         if(patternTimer.valid){
             patternTimer.invalidate()
         }
-        
         doRandom()
 
     }
@@ -60,10 +60,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func doRandomImpl() -> Void{
         var drop = createDrop()
-//        var xValue = Int(arc4random_uniform(xAxisMax-10) + 5)
-        var xValue = 1
-        drop.position = CGPointMake(CGFloat(xValue), self.frame.height-5)
-    
+        
+        var min = self.frame.origin.x + 20
+        var max = self.frame.width - 20
+        var xValue = Int(arc4random_uniform(UInt32(max - min + 1)))
+        
+        drop.position = CGPointMake(CGFloat(xValue) - 4, self.frame.height - 5)
+        
         self.addChild(drop)
         drop.physicsBody?.categoryBitMask = dropCategory
         drop.physicsBody?.contactTestBitMask = mainCategory
@@ -97,6 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var fall = SKAction.moveTo(CGPointMake(drop.position.x, -self.frame.height), duration: 3.0)
             var fallWithFade = SKAction.group([fadeIn, fall])
             
+            
             var kill = SKAction.runBlock({
                 drop.removeFromParent()
             })
@@ -121,7 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         drop.physicsBody = dropBody
         
-        var dropPath = CGPathCreateWithEllipseInRect(CGRectMake((drop.size.width/2), drop.size.height/2, drop.size.width, drop.size.width),
+        var dropPath = CGPathCreateWithEllipseInRect(CGRectMake((-drop.size.width/2), -drop.size.height/2, drop.size.width, drop.size.width),
             nil)
         
         var dropShape = SKShapeNode()
@@ -141,7 +145,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var radius = CGFloat()
         radius = 20.0;
         var controlCircle = SKSpriteNode()
-        controlCircle.color = UIColor.clearColor()
         controlCircle.size = CGSizeMake(radius * 2, radius * 2);
         
         var circleBody = SKPhysicsBody(circleOfRadius: radius)
@@ -149,17 +152,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         circleBody.usesPreciseCollisionDetection = true
         
         controlCircle.physicsBody = circleBody
+        
+        
 
-        var bodyPath = CGPathCreateWithEllipseInRect(CGRectMake((controlCircle.size.width/2), controlCircle.size.height/2, controlCircle.size.width, controlCircle.size.width),
+        var bodyPath : CGPathRef = CGPathCreateWithEllipseInRect(CGRectMake((-controlCircle.size.width/2), -controlCircle.size.height/2, controlCircle.size.width, controlCircle.size.width
+            ),
             nil)
-            
+        
+        
         var circleShape = SKShapeNode()
         circleShape.fillColor = UIColor.brownColor()
         circleShape.lineWidth = 0
         circleShape.path = bodyPath
+        
         controlCircle.addChild(circleShape)
-        controlCircle.position = CGPointMake(self.frame.width/2, self.frame.height/2)
-
+        
         return controlCircle
     }
     
