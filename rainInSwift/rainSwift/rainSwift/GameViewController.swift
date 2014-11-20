@@ -31,8 +31,8 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var sceneWidth = self.view.bounds.width * 2
-        var sceneHeight = self.view.bounds.height * 2
+        var sceneWidth = self.view.bounds.width * 4
+        var sceneHeight = self.view.bounds.height * 4
         var size = CGSizeMake(sceneWidth, sceneHeight)
         var gameScene = GameScene(size: size)
             gameScene.backgroundColor = SKColor.whiteColor()
@@ -43,6 +43,7 @@ class GameViewController: UIViewController {
             skView.showsDrawCount = true
             skView.showsFPS = true
             skView.showsNodeCount = true
+        
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true

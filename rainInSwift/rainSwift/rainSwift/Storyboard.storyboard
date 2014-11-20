@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="top" id="HL0-Zw-C4R"/>
                         <viewControllerLayoutGuide type="bottom" id="nIc-uU-j2X"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0zK-LK-sSx" customClass="MainMenuView" customModule="rainSwift" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="0zK-LK-sSx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -47,6 +47,15 @@
                     <view key="view" contentMode="scaleAspectFill" id="5fr-t2-0m7" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCt-HH-TZd">
+                                <rect key="frame" x="92" y="356" width="137" height="54"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="32"/>
+                                <state key="normal" title="try Again">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                     </view>
