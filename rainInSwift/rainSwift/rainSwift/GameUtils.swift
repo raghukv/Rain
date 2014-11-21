@@ -43,9 +43,7 @@ class GameUtils {
         circleBody.dynamic = true
         circleBody.usesPreciseCollisionDetection = true
         mainCircle.physicsBody = circleBody
-        var bodyPath : CGPathRef = CGPathCreateWithEllipseInRect(CGRectMake((-mainCircle.size.width/2), -mainCircle.size.height/2, mainCircle.size.width, mainCircle.size.width
-            ),
-            nil)
+        var bodyPath : CGPathRef = CGPathCreateWithEllipseInRect(CGRectMake((-mainCircle.size.width/2), -mainCircle.size.height/2, mainCircle.size.width, mainCircle.size.width),nil)
         var circleShape = SKShapeNode()
         circleShape.fillColor = UIColor.brownColor()
         circleShape.lineWidth = 2
