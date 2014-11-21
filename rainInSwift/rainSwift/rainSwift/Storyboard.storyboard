@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Lif-HX-Ryp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="wrc-c3-hFi">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Main-->
-        <scene sceneID="RzX-fa-R91">
+        <!--View Controller-->
+        <scene sceneID="1MT-mv-W88">
             <objects>
-                <viewController title="Main" id="Lif-HX-Ryp" customClass="MainMenuController" customModule="rainSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wrc-c3-hFi" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HL0-Zw-C4R"/>
-                        <viewControllerLayoutGuide type="bottom" id="nIc-uU-j2X"/>
+                        <viewControllerLayoutGuide type="top" id="Eed-od-F54"/>
+                        <viewControllerLayoutGuide type="bottom" id="5T6-oh-GcG"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0zK-LK-sSx">
+                    <view key="view" contentMode="scaleToFill" id="gGF-sd-79O">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anW-i1-g0K">
-                                <rect key="frame" x="113" y="355" width="94" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZI-Fe-vI4">
+                                <rect key="frame" x="114" y="341" width="93" height="70"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="32"/>
                                 <state key="normal" title="play">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="oi5-SN-lWg" kind="modal" id="3e4-IX-ZWI"/>
+                                    <segue destination="oi5-SN-lWg" kind="modal" id="zuh-J7-U05"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ytk-wf-97G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o9a-MY-oRu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131" y="358"/>
+            <point key="canvasLocation" x="145" y="359"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="b3u-kr-tPs">
