@@ -11,7 +11,7 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var xAxisMax : UInt32 = 0
-    var generationSpeed : Double = 0.05
+    var generationSpeed : Double = 0.1
     var mainCategory : UInt32 = 1 << 0
     var dropCategory: UInt32 = 1 << 1
     var controlCircle = SKSpriteNode();
@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var runGame = NSTimer();
     var patternTimer = NSTimer()
     var gameUtils = GameUtils()
+    var zigLeft: CGFloat = 0.0
+    var zigMaxReached: Bool = false
     
     override func didMoveToView(view: SKView) {
         self.physicsWorld.contactDelegate = self
@@ -29,6 +31,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
     func resetAndBeginGame(){
+        zigMaxReached = false
+        zigLeft = 0.0
+        
         self.controlCircle = gameUtils.drawControlCircle()
         controlCircle.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-600)
         self.addChild(controlCircle)
@@ -43,9 +48,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             patternTimer.invalidate()
         }
         doRandom()
+//        doZigZag()
+    }
+    
+    func doZigZag() -> Void {
+        patternTimer = NSTimer.scheduledTimerWithTimeInterval(generationSpeed, target: self, selector: "doZigZagImpl", userInfo: nil, repeats: true)
     }
     
     func doRandom() -> Void{
+       zigLeft = self.frame.origin.x + 400
        patternTimer =  NSTimer.scheduledTimerWithTimeInterval(generationSpeed, target: self, selector: "doRandomImpl", userInfo: nil, repeats: true)
     }
     
@@ -90,6 +101,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func doZigZagImpl(){        
+        if(zigMaxReached){
+            zigLeft -= 100
+        }else{
+            zigLeft += 100
+            if(zigLeft > self.frame.width - 1000){
+                zigMaxReached = true
+            }
+        }
+        var left = zigLeft
+        var leftDrop = gameUtils.createDropWithRadius(30.0)
+        var rightDrop = gameUtils.createDropWithRadius(30.0)
+        var right = left + 600
+        leftDrop.position = CGPointMake(left, self.frame.height-5)
+        rightDrop.position = CGPointMake(right, self.frame.height-5)
+        self.addChild(leftDrop)
+        self.addChild(rightDrop)
+        leftDrop.physicsBody?.categoryBitMask = dropCategory
+        leftDrop.physicsBody?.contactTestBitMask = mainCategory
+        rightDrop.physicsBody?.categoryBitMask = dropCategory
+        rightDrop.physicsBody?.contactTestBitMask = mainCategory
+        var fadeIn = SKAction.fadeAlphaTo(0.8, duration: 0.7)
+        var leftFall = SKAction.moveTo(CGPointMake(leftDrop.position.x, -self.frame.height), duration: 3.0)
+        var fallWithFade = SKAction.group([fadeIn, leftFall])
+        var kill = SKAction.runBlock({
+                leftDrop.removeFromParent()
+            })
+        var animation = SKAction.sequence([fallWithFade, kill])
+        leftDrop.runAction(animation)
+        var rightFall = SKAction.moveTo(CGPointMake(rightDrop.position.x, -self.frame.height), duration: 3.0)
+        var rightFallWithFade = SKAction.group([fadeIn, rightFall])
+        var rightKill = SKAction.runBlock({rightDrop.removeFromParent()})
+        var rightAnim = SKAction.sequence([rightFallWithFade, rightKill])
+        rightDrop.runAction(rightAnim)
+    }
+    
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
     {
@@ -97,12 +144,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var touch : UITouch = touches.anyObject() as UITouch
         var currentTouch : CGPoint = touch.locationInNode(self)
         var previousTouch : CGPoint = touch.previousLocationInNode(self)
-        
         var circlePosition = controlCircle.position
-        
         var difference = CGPointMake(currentTouch.x - previousTouch.x, currentTouch.y - previousTouch.y)
-        
-        
         var newX = circlePosition.x + difference.x;
         var newY = circlePosition.y + difference.y;
         var newPos = CGPointMake(newX, newY);
@@ -111,26 +154,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) -> Void{
         
-
         var firstBody : SKNode = contact.bodyA.node!
         var secondBody : SKNode = contact.bodyB.node!
-        
         runGame.invalidate()
         patternTimer.invalidate()
-        
         var fadeOut = SKAction.fadeAlphaTo(0.0, duration: 0.7)
         var kill = SKAction()
-        
         var childList = self.children
         var length = childList.count
-        
-        
         for(var i = 0; i < length; i++){
             var child : SKNode = childList[i] as SKNode
             child.removeAllActions()
             gameUtils.fadeOutAndKill(child)
         }
-        
         var tryAgain = SKSpriteNode()
         var tryText = SKLabelNode(fontNamed: "Futura Medium")
         tryAgain.name = "tryAgain"
@@ -142,10 +178,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tryAgain.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-200)
         tryAgain.alpha = 0.0
         self.addChild(tryAgain)
-        
         var fadeInLabel = SKAction.fadeInWithDuration(2.0)
         tryAgain.runAction(fadeInLabel)
-        
     }
     
     override func touchesBegan (touches: NSSet, withEvent event: UIEvent)
@@ -163,7 +197,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }

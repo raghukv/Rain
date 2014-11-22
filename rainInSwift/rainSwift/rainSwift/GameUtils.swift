@@ -34,6 +34,27 @@ class GameUtils {
         return drop
     }
     
+    func createDropWithRadius(radius: CGFloat) -> SKSpriteNode{
+        
+        var drop = SKSpriteNode()
+        drop.color = UIColor.clearColor()
+        drop.size = CGSizeMake(radius * 2, radius * 2)
+        var dropBody = SKPhysicsBody(circleOfRadius: radius)
+        dropBody.dynamic = true
+        dropBody.usesPreciseCollisionDetection = true
+        drop.physicsBody = dropBody
+        var dropPath = CGPathCreateWithEllipseInRect(CGRectMake((-drop.size.width/2), -drop.size.height/2, drop.size.width, drop.size.width),
+            nil)
+        var dropShape = SKShapeNode()
+        dropShape.fillColor = UIColor.blackColor();
+        dropShape.lineWidth = 0
+        drop.name = "dropMask"
+        dropShape.path = dropPath
+        drop.addChild(dropShape)
+        drop.alpha = 0.0
+        return drop
+    }
+    
     func drawControlCircle() -> SKSpriteNode{
         var radius = CGFloat()
         radius = 60.0;
